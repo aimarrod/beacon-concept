@@ -12,4 +12,7 @@
     <string name="sync_first_line">Selecciona tu pulsera</string>
     <string name="sync_second_line">para vincular con</string>
     <string name="sync_third_line">tu smartphone</string>
+
+    <!-- Shared preferences file -->
+    <string name="preferences_file">beacon_preferences</string>
 </resources>
