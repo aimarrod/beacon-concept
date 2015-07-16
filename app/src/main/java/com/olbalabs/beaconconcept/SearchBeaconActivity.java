@@ -61,9 +61,15 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
 
             @Override
             public void didRangeBeaconsInRegion(final Collection<Beacon> beacons, final Region region) {
-                for(Beacon beacon: beacons) {
-                    adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(beacon.getId1().toString(), beacon.getId2().toString(), beacon.getId3().toString()));
-                }
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        for(Beacon beacon: beacons) {
+                            adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(beacon.getId1().toString(), beacon.getId2().toString(), beacon.getId3().toString()));
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
 
