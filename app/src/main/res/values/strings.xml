@@ -11,8 +11,15 @@
     <!-- Sync page -->
     <string name="sync_first_line">Selecciona tu pulsera</string>
     <string name="sync_second_line">para vincular con</string>
-    <string name="sync_third_line">tu smartphone</string>
-    <string name="sync_kid">KID</string>
+    <string name="sync_third_line">tu smartphone.</string>
+    <string name="sync_kid">NIÑO:</string>
+
+    <!-- Distance page -->
+    <string name="distance_first_line">Selecciona la distancia de alerta</string>
+    <string name="distance_second_line">Cuando la pulsera supere esta</string>
+    <string name="distance_third_line">distancia le llegará una alerta.</string>
+    <string name="distance_current">Su pulsera está a:</string>
+    <string name="distance_current_uuid">NIÑO:</string>
 
     <!-- Shared preferences file -->
     <string name="preferences_file">beacon_preferences</string>
