@@ -69,6 +69,7 @@
         android:src="@drawable/g_divider_h" />
 
     <LinearLayout
+        android:id="@+id/alarm_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
