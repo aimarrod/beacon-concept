@@ -1,7 +1,9 @@
 package com.olbalabs.beaconconcept;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.olbalabs.beaconconcept.adapter.SearchBeaconAdapter;
+import com.olbalabs.beaconconcept.service.BeaconService;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -49,9 +52,23 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("LKjnjndfg", "kjdnfbxfd");
-                Intent intent  = new Intent(SearchBeaconActivity.this, DistanceActivity.class);
-                startActivity(intent);
+                try {
+                    SharedPreferences.Editor ep = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE).edit();
+                    com.olbalabs.beaconconcept.domain.Beacon b = adapter.getItem(i);
+                    ep.putString("BEACON_UUID", b.getUuid());
+                    ep.putString("BEACON_MAJOR", b.getMayor());
+                    ep.putString("BEACON_MINOR", b.getMinor());
+                    ep.putBoolean("ALARM_ON", false);
+                    ep.commit();
+
+                    beaconManager.stopRangingBeaconsInRegion(region);
+
+
+                    Intent intent = new Intent(SearchBeaconActivity.this, DistanceActivity.class);
+                    startActivity(intent);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
             }
         });
     }

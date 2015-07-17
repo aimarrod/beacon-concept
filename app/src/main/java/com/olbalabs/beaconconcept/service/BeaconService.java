@@ -33,9 +33,9 @@ public class BeaconService extends Service implements BeaconConsumer{
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        Log.d("BeaconService", "OnStartCommand");
+
         beaconManager = BeaconManager.getInstanceForApplication(this);
-        beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
         beaconManager.bind(this);
 
         return Service.START_STICKY;
@@ -48,13 +48,12 @@ public class BeaconService extends Service implements BeaconConsumer{
 
     @Override
     public void onBeaconServiceConnect() {
-        final SharedPreferences sp = this.getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE);
-
         beaconManager.setMonitorNotifier(new MonitorNotifier() {
 
             @Override
             public void didEnterRegion(Region region) {
                 try {
+                    Log.d("BeaconService", "Entered region");
                     beaconManager.startRangingBeaconsInRegion(region);
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -67,21 +66,26 @@ public class BeaconService extends Service implements BeaconConsumer{
                     beaconManager.stopRangingBeaconsInRegion(region);
                 } catch (RemoteException e) {
                     e.printStackTrace();
-                }            }
+                }
+            }
 
             @Override
             public void didDetermineStateForRegion(int i, Region region) {
 
             }
         });
+        final SharedPreferences sp = this.getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE);
 
         beaconManager.setRangeNotifier(new RangeNotifier() {
 
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                Log.d("BeaconService", "It did range");
                 int distance = sp.getInt("RANGE", 10);
                 SharedPreferences.Editor ed = sp.edit();
                 for(Beacon b: beacons){
+                    Log.d("BeaconService", "Distance " + b.getDistance());
+
                     if(b.getDistance() > distance){
                         if(sp.getBoolean("ALARM_ON", false)) {
                             Log.d("BeaconService", "Distance breached");
@@ -120,7 +124,11 @@ public class BeaconService extends Service implements BeaconConsumer{
             }
 
             if(sp.contains("BEACON_UUID") && sp.contains("BEACON_MAJOR") && sp.contains("BEACON_MINOR")){
+                Log.d("BeaconService", "Starting monitor");
                 beaconManager.startMonitoringBeaconsInRegion(getBeacon(sp).getRegion());
+                beaconManager.setForegroundBetweenScanPeriod(1000);
+                beaconManager.setBackgroundMode(false);
+                beaconManager.setBackgroundBetweenScanPeriod(1000);
             }
         } catch (RemoteException e){
             e.printStackTrace();
