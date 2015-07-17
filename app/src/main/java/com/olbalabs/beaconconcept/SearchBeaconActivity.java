@@ -15,6 +15,7 @@ import org.altbeacon.beacon.Identifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -64,8 +65,18 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
+
+
                         for(Beacon beacon: beacons) {
-                            adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(beacon.getId1().toString(), beacon.getId2().toString(), beacon.getId3().toString()));
+                            boolean found = false;
+                            for(int i = 0; i < adapter.getCount(); i++){
+                                com.olbalabs.beaconconcept.domain.Beacon b = adapter.getItem(i);
+                                if(b.getMayor() == beacon.getId2().toString() && b.getMinor() == beacon.getId3().toString()){
+                                    found = true;
+                                    break;
+                                };
+                            }
+                            if(!found) adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(beacon.getId1().toString(), beacon.getId2().toString(), beacon.getId3().toString()));
                         }
                         adapter.notifyDataSetChanged();
                     }
