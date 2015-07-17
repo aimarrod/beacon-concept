@@ -51,6 +51,14 @@
             app:dsb_trackColor="#80CBC4"
             app:dsb_indicatorFormatter="%dm"/>
 
+        <TextView
+            android:id="@+id/current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/distance_current_place"
+            android:textSize="18sp" />
+
 
     </LinearLayout>
 
@@ -69,13 +77,15 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/pulsera"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_weight="0.2"
             android:gravity="center"
             android:text="@string/distance_current"
-            android:textSize="18sp">
+            android:textSize="18sp"
+            android:textColor="@android:color/black">
 
         </TextView>
 
@@ -87,7 +97,8 @@
             android:layout_weight="0.6"
             android:gravity="center"
             android:text="1 m"
-            android:textSize="50sp"></TextView>
+            android:textSize="50sp"
+            android:textColor="@android:color/black"></TextView>
 
         <TextView
             android:id="@+id/identificator"
@@ -96,7 +107,8 @@
             android:layout_gravity="center"
             android:layout_weight="0.2"
             android:gravity="center"
-            android:text="@string/distance_current_uuid">
+            android:text="@string/distance_current_uuid"
+            android:textColor="@android:color/black">
 
         </TextView>
 

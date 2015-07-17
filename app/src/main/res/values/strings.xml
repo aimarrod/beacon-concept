@@ -20,6 +20,7 @@
     <string name="distance_third_line">distancia le llegará una alerta.</string>
     <string name="distance_current">Su pulsera está a:</string>
     <string name="distance_current_uuid">NIÑO:</string>
+    <string name="distance_current_place">Actual:</string>
 
     <!-- Shared preferences file -->
     <string name="preferences_file">beacon_preferences</string>
