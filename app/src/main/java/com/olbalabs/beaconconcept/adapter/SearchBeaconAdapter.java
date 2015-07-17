@@ -43,7 +43,6 @@ public class SearchBeaconAdapter extends ArrayAdapter<Beacon> {
             //DRAW BEACON
             holder.uuid.setText(getContext().getString(R.string.sync_kid) + " " + beacon.getMayor() + "-" +beacon.getMinor());
             holder.checkBox.setChecked(beacon.isChecked());
-            holder.checkBox.setEnabled(false);
         }
         return view;
     }
