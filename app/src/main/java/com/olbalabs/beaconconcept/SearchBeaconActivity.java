@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.olbalabs.beaconconcept.adapter.SearchBeaconAdapter;
+import com.olbalabs.beaconconcept.domain.SharedPreferenceWrapper;
 import com.olbalabs.beaconconcept.service.BeaconService;
 
 import org.altbeacon.beacon.Beacon;
@@ -38,6 +39,7 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
     private BeaconManager beaconManager;
     private Region region = new Region("MyRegion", Identifier.parse(SERVICE_UUID), null, null);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,16 +55,15 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                    SharedPreferences.Editor ep = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE).edit();
-                    com.olbalabs.beaconconcept.domain.Beacon b = adapter.getItem(i);
-                    ep.putString("BEACON_UUID", b.getUuid());
-                    ep.putString("BEACON_MAJOR", b.getMayor());
-                    ep.putString("BEACON_MINOR", b.getMinor());
-                    ep.putBoolean("ALARM_ON", false);
-                    ep.commit();
-
                     beaconManager.stopRangingBeaconsInRegion(region);
 
+                    com.olbalabs.beaconconcept.domain.Beacon b = adapter.getItem(i);
+
+                    SharedPreferences.Editor spe = SharedPreferenceWrapper.getInstance().edit();
+                    spe.putString("BEACON_UUID", b.getUuid());
+                    spe.putString("BEACON_MAJOR", b.getMayor());
+                    spe.putString("BEACON_MINOR", b.getMinor());
+                    spe.commit();
 
                     Intent intent = new Intent(SearchBeaconActivity.this, DistanceActivity.class);
                     startActivity(intent);
@@ -76,13 +77,15 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
     @Override
     protected void onResume(){
         super.onResume();
-        beaconManager.setBackgroundMode(false);
+        beaconManager.bind(this);
+        BeaconService.stop();
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        beaconManager.setBackgroundMode(true);
+        beaconManager.unbind(this);
+        BeaconService.start();
     }
 
     @Override

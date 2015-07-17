@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import com.olbalabs.beaconconcept.domain.SharedPreferenceWrapper;
 import com.olbalabs.beaconconcept.service.BeaconService;
 
 import org.altbeacon.beacon.BeaconManager;
@@ -23,5 +24,8 @@ public class BeaconConceptApplication extends Application {
 
         beaconManager.getBeaconParsers().add(new BeaconParser().
                 setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
+
+        SharedPreferenceWrapper.initialize(this);
+        startService(new Intent(this, BeaconService.class));
     }
 }
