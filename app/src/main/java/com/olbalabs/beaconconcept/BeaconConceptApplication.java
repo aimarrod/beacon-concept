@@ -1,6 +1,7 @@
 package com.olbalabs.beaconconcept;
 
 import android.app.Application;
+import android.util.Log;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
