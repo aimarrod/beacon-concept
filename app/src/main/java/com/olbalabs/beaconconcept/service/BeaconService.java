@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.olbalabs.beaconconcept.R;
 
@@ -25,6 +26,7 @@ import java.util.Collection;
 public class BeaconService extends Service implements BeaconConsumer{
 
     private BeaconManager beaconManager;
+    private Region region;
 
 
     @Override
@@ -46,20 +48,26 @@ public class BeaconService extends Service implements BeaconConsumer{
 
     @Override
     public void onBeaconServiceConnect() {
-        SharedPreferences sp = this.getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE);
-        com.olbalabs.beaconconcept.domain.Beacon current = getBeacon(sp);
+        final SharedPreferences sp = this.getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE);
 
         beaconManager.setMonitorNotifier(new MonitorNotifier() {
 
             @Override
             public void didEnterRegion(Region region) {
-
+                try {
+                    beaconManager.startRangingBeaconsInRegion(region);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void didExitRegion(Region region) {
-
-            }
+                try {
+                    beaconManager.stopRangingBeaconsInRegion(region);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }            }
 
             @Override
             public void didDetermineStateForRegion(int i, Region region) {
@@ -67,14 +75,47 @@ public class BeaconService extends Service implements BeaconConsumer{
             }
         });
 
-        try {
-            beaconManager.startRangingBeaconsInRegion(region);
-        } catch (RemoteException e) {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
 
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                int distance = sp.getInt("DISTANCE_THRESHOLD", 10);
+                for(Beacon b: beacons){
+                    if(b.getDistance() > distance){
+                        Log.d("BeaconService", "Distance breached");
+                    }
+                }
+            }
+        });
+
+        sp.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener(){
+
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Log.d("BeaconService", "Key " + key + " modified");
+                if (key == "BEACON_UUID" || key == "BEACON_MAJOR" || key == "BEACON_MINOR") {
+                    restart(sharedPreferences);
+                }
+            }
+        });
+        restart(sp);
+    }
+
+
+    private void restart(SharedPreferences sp){
+        try {
+            if (region != null) {
+                beaconManager.stopMonitoringBeaconsInRegion(region);
+                beaconManager.stopMonitoringBeaconsInRegion(region);
+            }
+
+            if(sp.contains("BEACON_UUID") && sp.contains("BEACON_MAJOR") && sp.contains("BEACON_MINOR")){
+                beaconManager.startMonitoringBeaconsInRegion(getBeacon(sp).getRegion());
+            }
+        } catch (RemoteException e){
+            e.printStackTrace();
         }
     }
-    }
-
 
 
     private com.olbalabs.beaconconcept.domain.Beacon getBeacon(SharedPreferences sp){
