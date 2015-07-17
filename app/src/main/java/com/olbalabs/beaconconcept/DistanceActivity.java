@@ -38,7 +38,6 @@ public class DistanceActivity extends Activity {
         ll = (LinearLayout) findViewById(R.id.alarm_layout);
         tv = (TextView) findViewById(R.id.current_distance);
 
-
         dsb = (DiscreteSeekBar) findViewById(R.id.bar);
         dsb.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
