@@ -1,5 +1,8 @@
 package com.olbalabs.beaconconcept.domain;
 
+import org.altbeacon.beacon.Identifier;
+import org.altbeacon.beacon.Region;
+
 /**
  * Created by julenzugastibilbao on 17/7/15.
  */
@@ -43,4 +46,8 @@ public class Beacon {
     public void setMinor(String minor) {
         this.minor = minor;
     }
+
+    public Region getRegion(){
+        return new Region("MyRegion", Identifier.parse(getUuid()), Identifier.parse(getMayor()), Identifier.parse(getMinor()));
+    };
 }
