@@ -42,7 +42,7 @@ public class SearchBeaconAdapter extends ArrayAdapter<Beacon> {
 
             //DRAW BEACON
             holder.uuid.setText(getContext().getString(R.string.sync_kid) + " " + beacon.getMayor() + "-" +beacon.getMinor());
-
+            holder.checkBox.setChecked(beacon.isChecked());
             //CHANGE COLOR IF CONNECTED
         }
         return view;
@@ -56,8 +56,7 @@ public class SearchBeaconAdapter extends ArrayAdapter<Beacon> {
 
         ViewHolder(View view) {
             uuid = (TextView) view.findViewById(R.id.uuid);
-            checkBox = (CheckBox) view.findViewById(R.id.checkbox);
-
+            checkBox = (CheckBox) view.findViewById(R.id.checkBox);
         }
 
     }

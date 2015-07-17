@@ -49,6 +49,13 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
         beaconManager.bind(this);
         adapter = new SearchBeaconAdapter(this);
 
+        SharedPreferences sp = SharedPreferenceWrapper.getInstance();
+
+        if(sp.contains("BEACON_UUID") && sp.contains("BEACON_MAJOR") && sp.contains("BEACON_MINOR")){
+            adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(sp.getString("BEACON_UUID",""), sp.getString("BEACON_MAJOR",""), sp.getString("BEACON_MINOR",""), true));
+            adapter.notifyDataSetChanged();
+        }
+
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,7 +110,7 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
                             boolean found = false;
                             for(int i = 0; i < adapter.getCount(); i++){
                                 com.olbalabs.beaconconcept.domain.Beacon b = adapter.getItem(i);
-                                if(b.getMayor() == beacon.getId2().toString() && b.getMinor() == beacon.getId3().toString()){
+                                if(b.getMayor().equals(beacon.getId2().toString()) && b.getMinor().equals(beacon.getId3().toString())){
                                     found = true;
                                     break;
                                 }

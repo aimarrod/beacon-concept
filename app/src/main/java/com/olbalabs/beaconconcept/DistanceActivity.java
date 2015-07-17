@@ -93,8 +93,15 @@ public class DistanceActivity extends Activity {
             }
         });
 
-        SharedPreferences.Editor ed = sp.edit();
-        ed.putInt("RANGE", 2);
-        ed.commit();
+        if(sp.contains("RANGE")){
+            dsb.setProgress(sp.getInt("RANGE", 2));
+        } else {
+            SharedPreferences.Editor ed = sp.edit();
+            ed.putInt("RANGE", 2);
+            ed.commit();
+        }
+
+        curretn_uuid.setText(getString(R.string.distance_current_uuid) + " " + sp.getString("BEACON_MAJOR", "") + "-" + sp.getString("BEACON_MINOR", ""));
+
     }
 }
