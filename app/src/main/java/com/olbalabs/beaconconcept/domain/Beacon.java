@@ -11,6 +11,7 @@ public class Beacon {
     String uuid;
     String mayor;
     String minor;
+    boolean checked = false;
 
     public Beacon() {
         super();
@@ -21,6 +22,14 @@ public class Beacon {
         this.uuid = uuid;
         this.mayor = mayor;
         this.minor = minor;
+    }
+
+    public Beacon(String uuid, String mayor, String minor, boolean b) {
+        super();
+        this.uuid = uuid;
+        this.mayor = mayor;
+        this.minor = minor;
+        this.checked = b;
     }
 
     public String getUuid() {
@@ -50,4 +59,8 @@ public class Beacon {
     public Region getRegion(){
         return new Region("MyRegion", Identifier.parse(getUuid()), Identifier.parse(getMayor()), Identifier.parse(getMinor()));
     };
+
+    public boolean isChecked(){
+        return checked;
+    }
 }
