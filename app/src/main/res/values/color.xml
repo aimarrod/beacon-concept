@@ -2,5 +2,5 @@
 <resources>
     <color name="blue_green">#80CBC4</color>
     <color name="alert">#EF6645</color>
-
+    <color name="normal">#EEEEEE</color>
 </resources>

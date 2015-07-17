@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -26,6 +27,10 @@ public class DistanceActivity extends Activity {
     private SharedPreferences sp;
     private LinearLayout ll;
     private TextView tv;
+    private TextView pulsera;
+    private TextView curretn_uuid;
+
+    MediaPlayer mp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +42,9 @@ public class DistanceActivity extends Activity {
 
         ll = (LinearLayout) findViewById(R.id.alarm_layout);
         tv = (TextView) findViewById(R.id.current_distance);
-
+        pulsera = (TextView) findViewById(R.id.pulsera);
+        curretn_uuid = (TextView) findViewById(R.id.identificator);
+        mp = MediaPlayer.create(DistanceActivity.this, R.raw.alarm);
 
         dsb = (DiscreteSeekBar) findViewById(R.id.bar);
         dsb.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
@@ -66,12 +73,21 @@ public class DistanceActivity extends Activity {
                 if (key.equals("ALARM_ON")) {
                     Log.d("Alarm", sharedPreferences.getBoolean("ALARM_ON", false) + "");
                     if (sharedPreferences.getBoolean("ALARM_ON", false)) {
-                        //ll.setBackgroundColor(getResources().getColor(R.color.alarm));
+                        ll.setBackgroundColor(getResources().getColor(R.color.alert));
+                        tv.setTextColor(getResources().getColor(android.R.color.white));
+                        pulsera.setTextColor(getResources().getColor(android.R.color.white));
+                        curretn_uuid.setTextColor(getResources().getColor(android.R.color.white));
+                        mp.setLooping(true);
+                        mp.start();
                     } else {
-                        //ll.setBackgroundColor(getResources().getColor(R.color.normal));
+                        ll.setBackgroundColor(getResources().getColor(R.color.normal));
+                        tv.setTextColor(getResources().getColor(android.R.color.black));
+                        pulsera.setTextColor(getResources().getColor(android.R.color.black));
+                        curretn_uuid.setTextColor(getResources().getColor(android.R.color.black));
+                        mp.stop();
                     }
                 } else if(key.equals("LATEST_DISTANCE")) {
-                    //tv.setText(sharedPreferences.getInt("LATEST_DISTANCE", 1));
+                    tv.setText(sharedPreferences.getInt("LATEST_DISTANCE", 1)+ " m");
                 }
             }
         });
