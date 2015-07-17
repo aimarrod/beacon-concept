@@ -1,8 +1,12 @@
 package com.olbalabs.beaconconcept;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.olbalabs.beaconconcept.adapter.SearchBeaconAdapter;
@@ -37,12 +41,19 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
         setContentView(R.layout.activity_search_beacon);
         beaconManager = BeaconManager.getInstanceForApplication(this);
 
-
         beaconManager.bind(this);
         adapter = new SearchBeaconAdapter(this);
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("LKjnjndfg", "kjdnfbxfd");
+                Intent intent  = new Intent(SearchBeaconActivity.this, DistanceActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'org.altbeacon:android-beacon-library:2.3.3'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+    compile 'org.adw.library:discrete-seekbar:1.0.0'
 }
