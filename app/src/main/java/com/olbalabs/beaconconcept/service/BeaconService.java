@@ -79,12 +79,22 @@ public class BeaconService extends Service implements BeaconConsumer{
 
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                int distance = sp.getInt("DISTANCE_THRESHOLD", 10);
+                int distance = sp.getInt("RANGE", 10);
+                SharedPreferences.Editor ed = sp.edit();
                 for(Beacon b: beacons){
                     if(b.getDistance() > distance){
-                        Log.d("BeaconService", "Distance breached");
+                        if(sp.getBoolean("ALARM_ON", false)) {
+                            Log.d("BeaconService", "Distance breached");
+                            ed.putBoolean("ALARM_ON", true);
+                        }
+                    } else {
+                        if(sp.getBoolean("ALARM_ON", true)){
+                            Log.d("BeaconService", "Re entered");
+                            ed.putBoolean("ALARM_ON", false);
+                        }
                     }
                 }
+                ed.commit();
             }
         });
 

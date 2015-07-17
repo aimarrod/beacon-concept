@@ -41,7 +41,7 @@ public class SearchBeaconAdapter extends ArrayAdapter<Beacon> {
             beacon = getItem(position);
 
             //DRAW BEACON
-            holder.uuid.setText(beacon.getUuid());
+            holder.uuid.setText(getContext().getString(R.string.sync_kid) + " " + beacon.getMayor() + "-" +beacon.getMinor());
 
             //CHANGE COLOR IF CONNECTED
         }

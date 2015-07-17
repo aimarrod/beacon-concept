@@ -28,19 +28,18 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
 
     private ListView listView;
     private SearchBeaconAdapter adapter;
-    private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
+    private BeaconManager beaconManager;
     private Region region = new Region("MyRegion", Identifier.parse(SERVICE_UUID), null, null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_beacon);
+        beaconManager = BeaconManager.getInstanceForApplication(this);
 
-        beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
+
         beaconManager.bind(this);
         adapter = new SearchBeaconAdapter(this);
-        //setListAdapter(adapter);
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
@@ -48,11 +47,13 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
 
     @Override
     protected void onResume(){
+        super.onResume();
         beaconManager.setBackgroundMode(false);
     }
 
     @Override
     protected void onPause(){
+        super.onPause();
         beaconManager.setBackgroundMode(true);
     }
 
@@ -74,7 +75,7 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
                                 if(b.getMayor() == beacon.getId2().toString() && b.getMinor() == beacon.getId3().toString()){
                                     found = true;
                                     break;
-                                };
+                                }
                             }
                             if(!found) adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(beacon.getId1().toString(), beacon.getId2().toString(), beacon.getId3().toString()));
                         }
