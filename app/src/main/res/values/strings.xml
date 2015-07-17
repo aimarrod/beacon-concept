@@ -3,4 +3,13 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Splash page -->
+    <string name="splash_sub_first_line">Proof of concept</string>
+    <string name="splash_sub_second_line">KIDS</string>
+
+    <!-- Sync page -->
+    <string name="sync_first_line">Selecciona tu pulsera</string>
+    <string name="sync_second_line">para vincular con</string>
+    <string name="sync_third_line">tu smartphone</string>
 </resources>
