@@ -42,12 +42,10 @@ public class DistanceActivity extends Activity {
 
         ll = (LinearLayout) findViewById(R.id.alarm_layout);
         tv = (TextView) findViewById(R.id.current_distance);
-<<<<<<< HEAD
-=======
+
         pulsera = (TextView) findViewById(R.id.pulsera);
         curretn_uuid = (TextView) findViewById(R.id.identificator);
         mp = MediaPlayer.create(DistanceActivity.this, R.raw.alarm);
->>>>>>> 4166467ebc3481f31f2e015e35744c9d271b5f7f
 
         dsb = (DiscreteSeekBar) findViewById(R.id.bar);
         dsb.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {

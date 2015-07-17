@@ -66,10 +66,12 @@ public class BeaconService extends Service implements BeaconConsumer{
     @Override
     public void onBeaconServiceConnect() {
         try {
-            beaconManager.setRangeNotifier(rn);
-            beaconManager.startRangingBeaconsInRegion(getBeacon(sp).getRegion());
-            beaconManager.setForegroundBetweenScanPeriod(1000);
-            beaconManager.setBackgroundMode(false);
+            if(sp.contains("BEACON_UUID") && sp.contains("BEACON_MAJOR") && sp.contains("BEACON_MINOR")) {
+                beaconManager.setRangeNotifier(rn);
+                beaconManager.startRangingBeaconsInRegion(getBeacon(sp).getRegion());
+                beaconManager.setForegroundBetweenScanPeriod(1000);
+                beaconManager.setBackgroundMode(false);
+            }
         } catch(RemoteException e){
             e.printStackTrace();
         }
