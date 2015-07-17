@@ -67,13 +67,13 @@ public class BeaconService extends Service implements BeaconConsumer{
             }
         });
 
-        try {
-            beaconManager.startRangingBeaconsInRegion(region);
-        } catch (RemoteException e) {
+        //try {
+            //beaconManager.startRangingBeaconsInRegion(region);
+        //} catch (RemoteException e) {
 
-        }
+       // }
     }
-    }
+
 
 
 

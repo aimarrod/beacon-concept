@@ -37,8 +37,7 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
         setContentView(R.layout.activity_search_beacon);
         beaconManager = BeaconManager.getInstanceForApplication(this);
 
-        beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
+
         beaconManager.bind(this);
         adapter = new SearchBeaconAdapter(this);
 
@@ -76,7 +75,7 @@ public class SearchBeaconActivity extends Activity implements BeaconConsumer {
                                 if(b.getMayor() == beacon.getId2().toString() && b.getMinor() == beacon.getId3().toString()){
                                     found = true;
                                     break;
-                                };
+                                }
                             }
                             if(!found) adapter.add(new com.olbalabs.beaconconcept.domain.Beacon(beacon.getId1().toString(), beacon.getId2().toString(), beacon.getId3().toString()));
                         }
