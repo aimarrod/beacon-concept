@@ -51,14 +51,6 @@
             app:dsb_trackColor="#80CBC4"
             app:dsb_indicatorFormatter="%dm"/>
 
-        <TextView
-            android:id="@+id/current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/distance_current_place"
-            android:textSize="18sp" />
-
 
     </LinearLayout>
 
