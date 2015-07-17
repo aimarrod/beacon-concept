@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
         android:background="#80CBC4"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
 </LinearLayout>
